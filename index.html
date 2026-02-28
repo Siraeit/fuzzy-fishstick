@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ของขวัญให้หนูหน่อยยย ❤️</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffe6ea;
+            font-family: 'Kanit', sans-serif;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .heart-bg {
+            position: absolute;
+            bottom: -50px;
+            color: #ff4d79;
+            font-size: 20px;
+            animation: floatUp linear infinite;
+            opacity: 0.7;
+            z-index: 0;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(0.5); opacity: 1; }
+            100% { transform: translateY(-120vh) scale(1.5); opacity: 0; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 77, 121, 0.2);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        /* ซ่อนหน้า 2 และ 3 ไว้ก่อน */
+        #page2, #page3 { display: none; }
+        
+        h1 { color: #d81b60; margin-bottom: 20px; }
+
+        /* --- หน้า 1 : ซองจดหมาย --- */
+        .envelope-wrapper {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            margin-top: 30px;
+        }
+
+        .envelope-wrapper:hover { transform: scale(1.05); }
+
+        .envelope {
+            width: 260px;
+            height: 160px;
+            background: #ff85a2;
+            position: relative;
+            margin: 0 auto;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            border-left: 130px solid transparent;
+            border-right: 130px solid transparent;
+            border-top: 90px solid #ff4d79;
+            z-index: 2;
+        }
+
+        .envelope-text {
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            color: #ff4d79;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+            z-index: 3;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        /* --- หน้า 2 : รูปของขวัญ --- */
+        .gift-image-box {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .gift-image-box img {
+            width: 100%;
+            border-radius: 5px;
+            object-fit: cover;
+        }
+
+        .btn-general {
+            background: #ff4d79;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-family: 'Kanit', sans-serif;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+
+        .btn-general:hover { background: #d81b60; }
+
+        /* --- หน้า 3 : ปุ่มซื้อ/ไม่ซื้อ --- */
+        .button-group {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            height: 60px; /* จองพื้นที่ไว้กันเลย์เอาต์ขยับ */
+        }
+
+        .btn-buy {
+            background: #4CAF50; /* สีเขียว */
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-family: 'Kanit', sans-serif;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+            transition: transform 0.2s;
+        }
+
+        .btn-buy:hover { transform: scale(1.1); }
+
+        .btn-nobuy {
+            background: #9e9e9e; /* สีเทา */
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-family: 'Kanit', sans-serif;
+            font-size: 20px;
+            cursor: pointer;
+            position: relative; /* เตรียมพร้อมสำหรับการขยับหนี */
+            z-index: 100;
+        }
+
+        /* ================= POPUP สวยๆ ================= */
+        .modal-overlay {
+            display: none; /* ซ่อนไว้ก่อน */
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 182, 193, 0.85); /* พื้นหลังสีชมพูโปร่งแสง */
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(216, 27, 96, 0.3);
+            max-width: 350px;
+            width: 80%;
+            /* อนิเมชั่นเด้งดึ๋งตอนโผล่มา */
+            animation: bounceIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+
+        .modal-content h1 {
+            font-size: 45px;
+            margin: 0 0 10px 0;
+            color: #ff4d79;
+        }
+
+        .modal-content h2 {
+            color: #d81b60;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="bgMusic" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="container">
+        
+        <div id="page1">
+            <h1>มีจดหมายถึงคุณแม่ 💌</h1>
+            <div class="envelope-wrapper" onclick="goToPage2()">
+                <div class="envelope">
+                    <div class="envelope-text">กดเปิดตรงนี้เลย!</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="page2">
+            <h1>อยากได้จีออโน่อะะะะะะะะ</h1>
+            <div class="gift-image-box">
+                <img src="https://www.motorival.com/wp-content/uploads/2026/01/2026-Honda-GIONO.jpg" alt="ของขวัญที่อยากได้">
+            </div>
+            <p style="color: #555; font-size: 20px;">
+                รายละเอียดสำคัญ Honda Giorno+ 2026
+เครื่องยนต์: eSP+ 125 ซีซี, 4 จังหวะ, 4 วาล์ว
+ดีไซน์ใหม่: เน้นความสปอร์ตพรีเมียมด้วยกรอบไฟหน้าสีดำเงากรอบเรือนไมล์ดำล้อแม็กสีทองในรุ่น ABS เบรกที่ไม่มีคำว่าล้มและ Emblem สีรมดำ
+สีและราคา (แนะนำ):
+รุ่น ABS (ล้อทอง): 4 สี (เทา-น้ำตาลเหลือง-น้ำตาลดำ-น้ำตาลขาว-น้ำตาล) ราคา 68,700 บาท
+
+
+
+            </p>
+            <button class="btn-general" onclick="goToPage3()">ซื้อให้ไหมครับบ➡️</button>
+        </div>
+
+        <div id="page3">
+            <h1 style="font-size: 28px;">สรุปว่า... ซื้อให้ได้ไหมน้าา? 😍</h1>
+            <p style="color: #d81b60; font-size: 18px;">(ตอบดีๆ นะ มีผลต่อหัวใจ 💖)</p>
+            
+            <div class="button-group">
+                <button class="btn-buy" onclick="success()">ซื้อให้จ้า!</button>
+                <button class="btn-nobuy" id="btnNo">ไม่ซื้อ!</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="successModal" class="modal-overlay">
+        <div class="modal-content">
+            <h1>🎉 เย้!!! 🎉</h1>
+            <h2>รักแม่ที่สุดในโลกเลยยย 💖</h2>
+            <p style="color: #555; font-size: 16px;">ขอบคุณนะค้าบบ 💸😆</p>
+            <button class="btn-general" onclick="closeModal()">ปิดหน้าต่าง</button>
+        </div>
+    </div>
+
+    <script>
+        const music = document.getElementById('bgMusic');
+        const btnNo = document.getElementById('btnNo');
+
+        // สลับไปหน้า 2
+        function goToPage2() {
+            document.getElementById('page1').style.display = 'none';
+            document.getElementById('page2').style.display = 'block';
+            music.play(); // เริ่มเล่นเพลง
+        }
+
+        // สลับไปหน้า 3
+        function goToPage3() {
+            document.getElementById('page2').style.display = 'none';
+            document.getElementById('page3').style.display = 'block';
+        }
+
+        // --- เมื่อแม่กดยอมซื้อ ---
+        function success() {
+            // โชว์ Popup
+            document.getElementById('successModal').style.display = 'flex';
+            
+            // ปล่อยหัวใจรัวๆ เพื่อฉลอง
+            for(let i=0; i<30; i++) {
+                setTimeout(createHeart, i * 100);
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('successModal').style.display = 'none';
+        }
+
+        
+        // ================= ลูกเล่นปุ่มวิ่งหนี =================
+        function moveButton() {
+            // ทำให้ปุ่มหลุดออกจากกรอบปกติและลอยไปมาบนหน้าจอได้
+            btnNo.style.position = 'fixed'; 
+
+            // คำนวณความกว้างยาวของหน้าจอ เพื่อสุ่มตำแหน่งที่ปุ่มจะไปโผล่
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            
+            // สุ่มตำแหน่ง X และ Y ให้อยู่ในกรอบหน้าจอ
+            const randomX = Math.random() * (windowWidth - 100); 
+            const randomY = Math.random() * (windowHeight - 50);
+
+            // ย้ายปุ่มไปที่ตำแหน่งใหม่
+            btnNo.style.left = randomX + 'px';
+            btnNo.style.top = randomY + 'px';
+        }
+
+        // จับเหตุการณ์เมื่อเมาส์ไปโดน (สำหรับคอมพิวเตอร์)
+        btnNo.addEventListener('mouseover', moveButton);
+        // จับเหตุการณ์เมื่อนิ้วแตะ (สำหรับมือถือ)
+        btnNo.addEventListener('touchstart', function(e) {
+            e.preventDefault(); // ป้องกันการกดโดน
+            moveButton();
+        });
+        // กันเหนียวเวลากดคลิกได้ (ในกรณีที่เมาส์ขยับไวเกินไป)
+        btnNo.addEventListener('click', moveButton);
+
+        // ================= อนิเมชั่นหัวใจ =================
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-bg');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 4 + 's';
+            heart.style.fontSize = Math.random() * 20 + 15 + 'px';
+            document.body.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 7000);
+        }
+
+        setInterval(createHeart, 30);
+    </script>
+</body>
+</html>
